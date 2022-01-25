@@ -1,7 +1,8 @@
 package com.github.kilnn.wheelview.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.kilnn.wheelview.WheelView;
 import com.github.kilnn.wheelview.adapters.NumericWheelAdapter;
