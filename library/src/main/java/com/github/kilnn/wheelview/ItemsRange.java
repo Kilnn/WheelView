@@ -35,7 +35,7 @@ public class ItemsRange {
     public ItemsRange() {
         this(0, 0);
     }
-    
+
     /**
      * Constructor
      *
@@ -57,21 +57,21 @@ public class ItemsRange {
     }
 
     /**
-     * Gets number of last item
-     *
-     * @return the number of last item
-     */
-    public int getLast() {
-        return getFirst() + getCount() - 1;
-    }
-
-    /**
      * Get items count
      *
      * @return the count of items
      */
     public int getCount() {
         return count;
+    }
+
+    /**
+     * Gets number of last item
+     *
+     * @return the number of last item
+     */
+    public int getLast() {
+        return first + count - 1;
     }
 
     /**

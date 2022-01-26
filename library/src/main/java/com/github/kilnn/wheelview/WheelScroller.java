@@ -21,12 +21,17 @@ package com.github.kilnn.wheelview;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
+
+import androidx.annotation.NonNull;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Scroller class handles scrolling events and updates the
@@ -69,14 +74,14 @@ public class WheelScroller {
      */
     public static final int MIN_DELTA_FOR_SCROLLING = 1;
 
-    // Listener
-    private ScrollingListener listener;
-
     // Context
-    private Context context;
+    private final Context context;
+
+    // Listener
+    private final ScrollingListener listener;
 
     // Scrolling
-    private GestureDetector gestureDetector;
+    private final GestureDetector gestureDetector;
     private Scroller scroller;
     private int lastScrollY;
     private float lastTouchedY;
@@ -89,13 +94,30 @@ public class WheelScroller {
      * @param listener the scrolling listener
      */
     public WheelScroller(Context context, ScrollingListener listener) {
+        this.context = context;
+        this.listener = listener;
+        // gesture listener
+        // Do scrolling in onTouchEvent() since onScroll() are not call immediately
+        //  when user touch and move the wheel
+        SimpleOnGestureListener gestureListener = new SimpleOnGestureListener() {
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                // Do scrolling in onTouchEvent() since onScroll() are not call immediately
+                //  when user touch and move the wheel
+                return true;
+            }
+
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                lastScrollY = 0;
+                final int maxY = 0x7FFFFFFF;
+                final int minY = -maxY;
+                scroller.fling(0, lastScrollY, 0, (int) -velocityY, 0, 0, minY, maxY);
+                setNextMessage(AnimationHandler.MESSAGE_SCROLL);
+                return true;
+            }
+        };
         gestureDetector = new GestureDetector(context, gestureListener);
         gestureDetector.setIsLongpressEnabled(false);
-
         scroller = new Scroller(context);
-
-        this.listener = listener;
-        this.context = context;
     }
 
     /**
@@ -120,7 +142,7 @@ public class WheelScroller {
         lastScrollY = 0;
 
         scroller.startScroll(0, 0, 0, distance, time != 0 ? time : SCROLLING_DURATION);
-        setNextMessage(MESSAGE_SCROLL);
+        setNextMessage(AnimationHandler.MESSAGE_SCROLL);
 
         startScrolling();
     }
@@ -164,28 +186,6 @@ public class WheelScroller {
         return true;
     }
 
-    // gesture listener
-    private SimpleOnGestureListener gestureListener = new SimpleOnGestureListener() {
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            // Do scrolling in onTouchEvent() since onScroll() are not call immediately
-            //  when user touch and move the wheel
-            return true;
-        }
-
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            lastScrollY = 0;
-            final int maxY = 0x7FFFFFFF;
-            final int minY = -maxY;
-            scroller.fling(0, lastScrollY, 0, (int) -velocityY, 0, 0, minY, maxY);
-            setNextMessage(MESSAGE_SCROLL);
-            return true;
-        }
-    };
-
-    // Messages
-    private final int MESSAGE_SCROLL = 0;
-    private final int MESSAGE_JUSTIFY = 1;
-
     /**
      * Set next message to queue. Clears queue before.
      *
@@ -200,43 +200,60 @@ public class WheelScroller {
      * Clears messages from queue
      */
     private void clearMessages() {
-        animationHandler.removeMessages(MESSAGE_SCROLL);
-        animationHandler.removeMessages(MESSAGE_JUSTIFY);
+        animationHandler.removeMessages(AnimationHandler.MESSAGE_SCROLL);
+        animationHandler.removeMessages(AnimationHandler.MESSAGE_JUSTIFY);
     }
 
-    // animation handler
-    private Handler animationHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    private static class AnimationHandler extends Handler {
+        // Messages
+        private static final int MESSAGE_SCROLL = 0;
+        private static final int MESSAGE_JUSTIFY = 1;
+
+        private final WeakReference<WheelScroller> reference;
+
+        public AnimationHandler(WheelScroller scroller) {
+            super(Looper.getMainLooper());
+            reference = new WeakReference<>(scroller);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            final WheelScroller wheelScroller = reference.get();
+            if (wheelScroller == null) return;
+            final Scroller scroller = wheelScroller.scroller;
+
             scroller.computeScrollOffset();
             int currY = scroller.getCurrY();
-            int delta = lastScrollY - currY;
-            lastScrollY = currY;
+            int delta = wheelScroller.lastScrollY - currY;
+            wheelScroller.lastScrollY = currY;
             if (delta != 0) {
-                listener.onScroll(delta);
+                wheelScroller.listener.onScroll(delta);
             }
 
             // scrolling is not finished when it comes to final Y
-            // so, finish it manually 
+            // so, finish it manually
             if (Math.abs(currY - scroller.getFinalY()) < MIN_DELTA_FOR_SCROLLING) {
-                currY = scroller.getFinalY();
                 scroller.forceFinished(true);
             }
             if (!scroller.isFinished()) {
-                animationHandler.sendEmptyMessage(msg.what);
+                sendEmptyMessage(msg.what);
             } else if (msg.what == MESSAGE_SCROLL) {
-                justify();
+                wheelScroller.justify();
             } else {
-                finishScrolling();
+                wheelScroller.finishScrolling();
             }
         }
-    };
+    }
+
+    // animation handler
+    private final Handler animationHandler = new AnimationHandler(this);
 
     /**
      * Justifies wheel
      */
     private void justify() {
         listener.onJustify();
-        setNextMessage(MESSAGE_JUSTIFY);
+        setNextMessage(AnimationHandler.MESSAGE_JUSTIFY);
     }
 
     /**
