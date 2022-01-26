@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WheelView">
+        <!--中间区域背景-->
+        <attr name="center_background" format="reference"/>
+
+        <!--中间区域前景-->
+        <attr name="center_foreground" format="reference"/>
+
+        <!--是否绘制阴影-->
+        <attr name="is_draw_shadows" format="boolean"/>
+        <!--阴影颜色-->
+        <attr name="shadows_color" format="color|reference"/>
+
+        <!--分割线-->
+        <attr name="divider" format="reference"/>
+
+        <!--可见Item数量-->
+        <attr name="visible_items" format="integer"/>
+
+        <!--是否循环滚动-->
+        <attr name="is_cyclic" format="boolean"/>
+
+        <!--是否绘制高亮颜色，注意绘制高亮，Adapter的View中不能有背景色-->
+        <attr name="draw_highlight" format="boolean"/>
+
+        <!--高亮色-->
+        <attr name="highlight_color" format="color|reference"/>
+    </declare-styleable>
+</resources>
