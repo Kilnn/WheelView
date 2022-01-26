@@ -100,8 +100,7 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
         this.context = context;
         itemResourceId = itemResource;
         itemTextResourceId = itemTextResource;
-
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = LayoutInflater.from(context);
     }
 
     /**
@@ -194,7 +193,6 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
         this.emptyItemResourceId = emptyItemResourceId;
     }
 
-
     /**
      * Returns text for specified item
      *
@@ -249,8 +247,6 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
         view.setTextSize(textSize);
         view.setEllipsize(TextUtils.TruncateAt.END);
         view.setLines(1);
-//        view.setCompoundDrawablePadding(20);
-//        view.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
     }
 
     /**
@@ -266,14 +262,13 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
             if (textResource == NO_RESOURCE && view instanceof TextView) {
                 text = (TextView) view;
             } else if (textResource != NO_RESOURCE) {
-                text = (TextView) view.findViewById(textResource);
+                text = view.findViewById(textResource);
             }
         } catch (ClassCastException e) {
             Log.e("AbstractWheelAdapter", "You must supply a resource ID for a TextView");
             throw new IllegalStateException(
                     "AbstractWheelAdapter requires the resource ID to be a TextView", e);
         }
-
         return text;
     }
 
