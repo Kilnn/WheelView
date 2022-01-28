@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +9,26 @@
 
     <com.github.kilnn.wheelview.WheelView
         android:id="@+id/wheel_view"
+        style="@style/WheelLayout.Alert.WheelView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"/>
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_show_one_wheel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="One Wheel"/>
+
+    <Button
+        android:id="@+id/btn_show_two_wheel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Two Wheel"/>
+
+    <Button
+        android:id="@+id/btn_show_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"/>
 
 </LinearLayout>

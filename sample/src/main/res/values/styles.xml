@@ -1,11 +1,40 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="wheelLayoutWheelViewStyle">@style/WheelLayout.Alert.WheelView</item>
+        <item name="wheelLayoutWheelItemTextStyle">@style/WheelLayout.Alert.WheelItem</item>
+        <item name="wheelLayoutWheelDesTextStyle">@style/WheelLayout.Alert.WheelDes</item>
+    </style>
+
+    <style name="WheelLayout.Alert.WheelView" parent="android:Widget">
+        <item name="android:background">?colorSurface</item>
+        <item name="is_draw_shadows">true</item>
+        <item name="shadows_color">?colorSurface</item>
+        <item name="divider">?dividerVertical</item>
+        <item name="is_cyclic">false</item>
+        <item name="visible_items">5</item>
+        <item name="draw_highlight">true</item>
+        <item name="highlight_color">?colorPrimary</item>
+    </style>
+
+    <style name="WheelLayout.Alert.WheelItem" parent="@style/Widget.MaterialComponents.TextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:minHeight">42dp</item>
+        <item name="android:textAppearance">?textAppearanceHeadline6</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="WheelLayout.Alert.WheelDes" parent="@style/Widget.MaterialComponents.TextView">
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">?textAppearanceCaption</item>
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
     </style>
 
 </resources>

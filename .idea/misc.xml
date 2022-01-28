@@ -5,6 +5,20 @@
       <map>
         <entry key="..\:/Android/Workspace/WheelView/library/src/main/res/drawable/wheel_bg.xml" value="0.13697916666666668" />
         <entry key="..\:/Android/Workspace/WheelView/library/src/main/res/drawable/wheel_val.xml" value="0.13697916666666668" />
+        <entry key="..\:/Android/Workspace/WheelView/library/src/main/res/layout/item_default_wheel_int.xml" value="0.21422101449275363" />
+        <entry key="..\:/Android/Workspace/WheelView/library/src/main/res/layout/item_wheel_int.xml" value="0.21422101449275363" />
+        <entry key="..\:/Android/Workspace/WheelView/library/src/main/res/layout/layout_default_one_wheel.xml" value="0.21422101449275363" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/drawable/custom_alert_shape_item_divider.xml" value="0.25729166666666664" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/drawable/custom_alert_shape_light_divider.xml" value="0.25729166666666664" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/drawable/wheel_bg.xml" value="0.25729166666666664" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/drawable/wheel_val.xml" value="0.25729166666666664" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/layout/11.xml" value="0.17980072463768115" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/layout/activity_main.xml" value="0.18115942028985507" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/layout/alert_int_wheel_view.xml" value="0.21422101449275363" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/layout/alert_single_wheel_view.xml" value="0.17980072463768115" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/layout/alert_two_wheel_view.xml" value="0.19021739130434784" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/layout/custom_alert_item_wheel_view_text.xml" value="0.12083333333333333" />
+        <entry key="..\:/Android/Workspace/WheelView/sample/src/main/res/layout/custom_alert_layout_single_wheel_view.xml" value="0.12083333333333333" />
       </map>
     </option>
   </component>

@@ -27,4 +27,10 @@
         <!--高亮色-->
         <attr name="highlight_color" format="color|reference"/>
     </declare-styleable>
+
+    <attr name="wheelLayoutWheelViewStyle" format="reference"/>
+    <attr name="wheelLayoutWheelItemTextStyle" format="reference"/>
+    <attr name="wheelLayoutWheelDesTextStyle" format="reference"/>
+
+
 </resources>
