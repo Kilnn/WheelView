@@ -1,5 +1,8 @@
 package com.github.kilnn.wheellayout
 
+/**
+ * 在Map中映射[WheelIntAdapter]
+ */
 open class WheelIntAdapterKey(
     /**
      * 最小值
@@ -49,18 +52,48 @@ class WheelIntConfig(
     val formatter: WheelIntFormatter?
 ) : WheelIntAdapterKey(min, max, isCyclic)
 
-
+/**
+ * [TwoWheelLayout]配置Float值的便捷类
+ */
 class WheelFloatConfig(
-    val min: Float,//最小值
-    val max: Float//最大值
+    /**
+     * 最小值
+     */
+    val min: Float,
+    /**
+     * 最大值
+     */
+    val max: Float
 ) {
-    var isIntPartCyclic = false //整数部分是否可以循环
-    var intPartDes: String? = null //整数部分描述
-    var intPartFormatter: WheelIntFormatter? = null //整数部分formatter
+    /**
+     * 整数部分是否可以循环
+     */
+    var isIntPartCyclic = false
 
-    var isFloatPartCyclic = true //小数部分是否可以循环
-    var floatPartDes: String? = null //小数部分描述
-    var floatPartFormatter: WheelIntFormatter? = null //小数部分formatter
+    /**
+     * 整数部分描述
+     */
+    var intPartDes: String? = null
+
+    /**
+     * 整数部分formatter
+     */
+    var intPartFormatter: WheelIntFormatter? = null
+
+    /**
+     * 小数部分是否可以循环
+     */
+    var isFloatPartCyclic = true
+
+    /**
+     * 小数部分描述
+     */
+    var floatPartDes: String? = null
+
+    /**
+     * 小数部分formatter
+     */
+    var floatPartFormatter: WheelIntFormatter? = null
 
     init {
         check(min <= max) {

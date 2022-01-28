@@ -33,8 +33,8 @@ class OneWheelLayout @JvmOverloads constructor(
     private var config: WheelIntConfig? = null
 
     /**
+     * 初始配置
      * @param config
-     * @return Is adapter changed
      */
     fun setConfig(config: WheelIntConfig) {
         this.config = config
@@ -48,8 +48,8 @@ class OneWheelLayout @JvmOverloads constructor(
     }
 
     /**
+     * 切换Adapter
      * @param adapterKey 如果为null，那么表示需要使用[config]的adapter
-     * @return Is adapter changed
      */
     fun setAdapterKey(adapterKey: WheelIntAdapterKey?) {
         val key = adapterKey ?: config ?: return
@@ -72,6 +72,9 @@ class OneWheelLayout @JvmOverloads constructor(
         adapter.notifyDataChangedEvent()
     }
 
+    /**
+     * 获取当前Adapter的值
+     */
     fun getValue(): Int {
         val adapter = getCurrentAdapter() ?: return 0
         return wheelView.currentItem + adapter.min
@@ -87,6 +90,9 @@ class OneWheelLayout @JvmOverloads constructor(
         wheelView.currentItem = set - adapter.min
     }
 
+    /**
+     * 获取的值需要在[adapterKey]的范围之内
+     */
     fun getValue(adapterKey: WheelIntAdapterKey?): Int {
         var value = getValue()
         val key = adapterKey ?: config ?: return value

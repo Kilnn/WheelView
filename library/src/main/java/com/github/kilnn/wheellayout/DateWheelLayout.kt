@@ -37,28 +37,39 @@ class DateWheelLayout @JvmOverloads constructor(
     private var limitDayAtStart = 0
     private var limitDayAtEnd = 0
 
+    /**
+     * @param start 可供选择的最小日期，如果不设置，默认为1900年1月1日
+     * @param end 可供选择的最大日期，如果不设置，则表示为当前日期
+     * @param yearDes 年份的描述
+     * @param monthDes 月份的描述
+     * @param dayDes 天的描述
+     * @param formatter 年月日都是共用这一个formatter
+     */
     fun setConfig(
         start: Date? = null,
         end: Date? = null,
         yearDes: String? = null,
         monthDes: String? = null,
-        dayDes: String? = null
+        dayDes: String? = null,
+        formatter: WheelIntFormatter? = null,
     ) {
         val startDate = start ?: intArrayOf(1900, 1, 1).toDate(calendar)
         val endDate = end ?: Date()
         check(startDate <= endDate) { "error:startDate after endData" }
 
-        startYear = startDate.getYear() + 1900;
-        limitMonthAtStart = startDate.getMonth() + 1;//如为7，则开始年份中，月的选择为7-12月
-        limitDayAtStart = startDate.getDate();//如为7，则开始年月中，日的选择为7-31号
+        val startArrays = startDate.toIntArray(calendar)
+        startYear = startArrays[0]
+        limitMonthAtStart = startArrays[1]//如为7，则开始年份中，月的选择为7-12月
+        limitDayAtStart = startArrays[2]//如为7，则开始年月中，日的选择为7-31号
 
-        endYear = endDate.getYear() + 1900;
-        limitMonthAtEnd = endDate.getMonth() + 1;//如为7，则结束年份中，月的选择为1-7月
-        limitDayAtEnd = endDate.getDate();//如为7，则结束年月中，月的选择为1-7号
+        val endArrays = endDate.toIntArray(calendar)
+        endYear = endArrays[0]
+        limitMonthAtEnd = endArrays[1]//如为7，则结束年份中，月的选择为1-7月
+        limitDayAtEnd = endArrays[2]//如为7，则结束年月中，月的选择为1-7号
 
-        wheelLayoutYear.setConfig(WheelIntConfig(startYear, endYear, false, yearDes, null))
-        wheelLayoutMonth.setConfig(getMonthAdapterKey(startYear).toWheelIntConfig(monthDes, null))
-        wheelLayoutDay.setConfig(getDayAdapterKey(startYear, limitMonthAtStart).toWheelIntConfig(dayDes, null))
+        wheelLayoutYear.setConfig(WheelIntConfig(startYear, endYear, false, yearDes, formatter))
+        wheelLayoutMonth.setConfig(getMonthAdapterKey(startYear).toWheelIntConfig(monthDes, formatter))
+        wheelLayoutDay.setConfig(getDayAdapterKey(startYear, limitMonthAtStart).toWheelIntConfig(dayDes, formatter))
     }
 
     private fun getMonthAdapterKey(year: Int): WheelIntAdapterKey {
