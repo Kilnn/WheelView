@@ -13,8 +13,14 @@ class DateWheelDialogFragment : AppCompatDialogFragment() {
         val builder = MaterialAlertDialogBuilder(requireContext())
         builder.setTitle("身高Inch")
             .setNegativeButton(android.R.string.cancel, null)
-        val dateWheelLayout = DateWheelLayout(requireContext())
-        dateWheelLayout.setConfig(start = null, end = null, yearDes = "年", monthDes = "月", dayDes = "日")
+        val dateWheelLayout = DateWheelLayout(requireContext(), order = false)
+        dateWheelLayout.setConfig(
+            start = null,
+            end = null,
+            yearDes = "年",
+            monthDes = "月",
+            dayDes = "日"
+        )
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             Log.e("Kilnn", "Select:" + dateWheelLayout.getDate().contentToString())
         }

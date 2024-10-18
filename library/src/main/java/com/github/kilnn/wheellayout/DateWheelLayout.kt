@@ -11,6 +11,7 @@ class DateWheelLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
+    order: Boolean = true,// 是否是正序 年月日排序
 ) : LinearLayout(context, attrs, defStyleAttr), OnWheelScrollListener {
 
     private val calendar = GregorianCalendar()
@@ -21,13 +22,24 @@ class DateWheelLayout @JvmOverloads constructor(
 
     init {
         orientation = HORIZONTAL
-        wheelLayoutYear = addOneWheelLayout().apply {
-            addScrollingListener(this@DateWheelLayout)
+        if (order) {
+            wheelLayoutYear = addOneWheelLayout().apply {
+                addScrollingListener(this@DateWheelLayout)
+            }
+            wheelLayoutMonth = addOneWheelLayout().apply {
+                addScrollingListener(this@DateWheelLayout)
+            }
+            wheelLayoutDay = addOneWheelLayout()
+        } else {
+            wheelLayoutDay = addOneWheelLayout()
+
+            wheelLayoutMonth = addOneWheelLayout().apply {
+                addScrollingListener(this@DateWheelLayout)
+            }
+            wheelLayoutYear = addOneWheelLayout().apply {
+                addScrollingListener(this@DateWheelLayout)
+            }
         }
-        wheelLayoutMonth = addOneWheelLayout().apply {
-            addScrollingListener(this@DateWheelLayout)
-        }
-        wheelLayoutDay = addOneWheelLayout()
     }
 
     private var startYear = 0
@@ -68,8 +80,18 @@ class DateWheelLayout @JvmOverloads constructor(
         limitDayAtEnd = endArrays[2]//如为7，则结束年月中，月的选择为1-7号
 
         wheelLayoutYear.setConfig(WheelIntConfig(startYear, endYear, false, yearDes, formatter))
-        wheelLayoutMonth.setConfig(getMonthAdapterKey(startYear).toWheelIntConfig(monthDes, formatter))
-        wheelLayoutDay.setConfig(getDayAdapterKey(startYear, limitMonthAtStart).toWheelIntConfig(dayDes, formatter))
+        wheelLayoutMonth.setConfig(
+            getMonthAdapterKey(startYear).toWheelIntConfig(
+                monthDes,
+                formatter
+            )
+        )
+        wheelLayoutDay.setConfig(
+            getDayAdapterKey(startYear, limitMonthAtStart).toWheelIntConfig(
+                dayDes,
+                formatter
+            )
+        )
     }
 
     private fun getMonthAdapterKey(year: Int): WheelIntAdapterKey {
@@ -102,8 +124,9 @@ class DateWheelLayout @JvmOverloads constructor(
                     28
                 }
             }
+
             else -> {
-                throw  IllegalArgumentException()
+                throw IllegalArgumentException()
             }
         }
     }
